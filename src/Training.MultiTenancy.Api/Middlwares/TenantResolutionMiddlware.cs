@@ -1,11 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Training.MultiTenancy.Api.Metada;
+using Training.MultiTenancy.Data;
 
 namespace Training.MultiTenancy.Api.Middlwares
 {
     public class TenantResolutionMiddlware : IMiddleware
     {
+        private readonly TenantInfo _tenantInfo;
+
+        public TenantResolutionMiddlware(TenantInfo tenantInfo)
+        {
+            _tenantInfo = tenantInfo;
+        }
+
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             if (context == null)
@@ -30,7 +38,10 @@ namespace Training.MultiTenancy.Api.Middlwares
                 throw new ArgumentNullException(nameof(ApplicationClaims.TenantId));
             }
 
-            //tenantResolver
+            if (int.TryParse(tenantClaim.Value, out int id))
+                _tenantInfo.TenantId = id;
+            else
+                throw new FormatException($"{nameof(ApplicationClaims.TenantId)} - wrong format");
 
             await next(context);
         }

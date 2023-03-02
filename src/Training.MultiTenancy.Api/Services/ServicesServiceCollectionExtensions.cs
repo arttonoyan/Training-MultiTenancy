@@ -6,7 +6,7 @@ using Training.MultiTenancy.Api.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
-public static class ServicesServiceCollectionExtensions
+public static partial class ServicesServiceCollectionExtensions
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
         => services.AddScoped<ITokenService, TokenService>();
@@ -58,9 +58,7 @@ public static class ServicesServiceCollectionExtensions
             };
         });
 
-        services.AddAuthorization();
-
-        return services;
+        return services.AddAuthorization();
     }
 
     public static IServiceCollection AddSwaggerLayer(this IServiceCollection services)

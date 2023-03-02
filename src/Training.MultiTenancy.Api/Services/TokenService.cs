@@ -16,7 +16,7 @@ namespace Training.MultiTenancy.Api.Services
 
         public string GenerateAccessToken(string userName, int tenantId)
         {
-            var claims = new List<Claim>()
+            var claims = new List<Claim>(2)
             {
                 new Claim(ClaimTypes.Name, userName),
                 new Claim(ApplicationClaims.TenantId, tenantId.ToString()),

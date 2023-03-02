@@ -2,6 +2,7 @@ namespace Training.MultiTenancy.Api
 {
     public class WeatherForecast
     {
+        public int TenantId { get; set; }
         public DateTime Date { get; set; }
 
         public int TemperatureC { get; set; }

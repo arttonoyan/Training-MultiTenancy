@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +13,7 @@ builder.Services.AddApplicationOptions(builder.Configuration);
 builder.Services.AddAuthenticationLayer(builder.Configuration);
 builder.Services.AddSwaggerLayer();
 builder.Services.AddApplicationMiddlwares();
+builder.Services.AddMultiTenancyData(builder.Configuration.GetConnectionString("LocalDbConnection")!);
 
 var app = builder.Build();
 

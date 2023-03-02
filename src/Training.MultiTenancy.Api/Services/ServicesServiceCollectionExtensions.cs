@@ -1,10 +1,16 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
+using Training.MultiTenancy.Api.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
-public static class ServiceCollectionExtensions
+public static class ServicesServiceCollectionExtensions
 {
+    public static IServiceCollection AddServices(this IServiceCollection services)
+        => services.AddScoped<ITokenService, TokenService>();
+
     public static IServiceCollection AddApplicationOptions(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtTokenOptions>(o =>
@@ -15,8 +21,6 @@ public static class ServiceCollectionExtensions
             o.AccessTokenDurationInMinutes = Convert.ToInt32(section[nameof(JwtTokenOptions.AccessTokenDurationInMinutes)]);
             o.AccessTokenDurationInMinutesRememberMe = Convert.ToInt32(section[nameof(JwtTokenOptions.AccessTokenDurationInMinutesRememberMe)]);
         });
-
-        services.Configure<EncryptionOptions>(configuration.GetSection(EncryptionOptions.Section));
 
         return services;
     }

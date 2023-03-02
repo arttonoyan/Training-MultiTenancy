@@ -14,6 +14,7 @@ public static partial class DataServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddMultiTenancyData(this IServiceCollection services, string connectionString, Action<string>? logAction = null) =>
         services
+            .AddScoped<TenantInfo>()
             .AddDbContext<TenantDbCntext>(options => {
                 options.UseSqlServer(connectionString);
                 if (logAction != null)

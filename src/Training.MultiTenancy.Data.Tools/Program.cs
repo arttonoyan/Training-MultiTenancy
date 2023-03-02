@@ -10,7 +10,6 @@ using IHost host = Host.CreateDefaultBuilder(args)
         config.AddEnvironmentVariables();
     })
     .ConfigureServices((context, services) => {
-        services.AddScoped<TenantInfo>();
         services.AddMultiTenancyData(context.Configuration.GetConnectionString("LocalDbConnection")!, Console.WriteLine);
     })
     .Build();
